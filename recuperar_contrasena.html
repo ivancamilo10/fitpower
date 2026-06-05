@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recuperar contraseña - FitPower</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0e0e0e;
+      --surface:rgba(18,18,18,0.82);
+      --surface-2:rgba(255,255,255,0.04);
+      --text:#ffffff;
+      --text-muted:#b8b8b8;
+      --primary:#d2ff9a;
+      --primary-strong:#9ffb06;
+      --primary-dark:#385d00;
+      --border:rgba(255,255,255,0.10);
+      --shadow:0 20px 50px rgba(0,0,0,0.35);
+      --danger:#ff7a7a;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    body{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      font-family:'Manrope',sans-serif;
+      color:var(--text);
+      background:
+        linear-gradient(rgba(0,0,0,0.60), rgba(0,0,0,0.72)),
+        url('https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
+    }
+
+    .recovery-shell{
+      width:100%;
+      max-width:460px;
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:22px;
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+      box-shadow:var(--shadow);
+      padding:34px 28px;
+    }
+
+    .brand{
+      font-family:'Space Grotesk',sans-serif;
+      font-size:1.4rem;
+      font-weight:800;
+      letter-spacing:-0.04em;
+      color:var(--primary);
+      text-transform:uppercase;
+      text-align:center;
+      margin-bottom:10px;
+    }
+
+    h1{
+      font-family:'Space Grotesk',sans-serif;
+      font-size:2rem;
+      line-height:1;
+      letter-spacing:-0.05em;
+      text-align:center;
+      margin-bottom:14px;
+    }
+
+    .subtitle{
+      color:var(--text-muted);
+      text-align:center;
+      line-height:1.7;
+      font-size:0.98rem;
+      margin-bottom:24px;
+    }
+
+    .status{
+      margin-bottom:16px;
+      padding:12px 14px;
+      border-radius:12px;
+      font-size:0.94rem;
+      line-height:1.5;
+      background:rgba(210,255,154,0.08);
+      border:1px solid rgba(210,255,154,0.18);
+      color:#eaffcf;
+    }
+
+    .status.error{
+      background:rgba(255,122,122,0.08);
+      border-color:rgba(255,122,122,0.22);
+      color:#ffd4d4;
+    }
+
+    .form-group{
+      margin-bottom:16px;
+    }
+
+    label{
+      display:block;
+      margin-bottom:8px;
+      font-size:0.92rem;
+      font-weight:700;
+      color:#f2f2f2;
+    }
+
+    input{
+      width:100%;
+      height:50px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:var(--surface-2);
+      color:var(--text);
+      padding:0 14px;
+      outline:none;
+      font-size:0.98rem;
+      transition:border-color .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    input:focus{
+      border-color:rgba(210,255,154,0.45);
+      box-shadow:0 0 0 4px rgba(210,255,154,0.10);
+      background:rgba(255,255,255,0.06);
+    }
+
+    input::placeholder{
+      color:#8b8b8b;
+    }
+
+    .btn{
+      width:100%;
+      height:52px;
+      border:none;
+      border-radius:12px;
+      cursor:pointer;
+      font-size:0.82rem;
+      font-weight:800;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      background:linear-gradient(135deg,var(--primary),var(--primary-strong));
+      color:var(--primary-dark);
+      transition:transform .2s ease, opacity .2s ease, box-shadow .2s ease;
+      box-shadow:0 12px 30px rgba(159,251,6,0.18);
+    }
+
+    .btn:hover{
+      transform:translateY(-2px);
+      opacity:.95;
+    }
+
+    .back-link{
+      margin-top:18px;
+      text-align:center;
+    }
+
+    .back-link a{
+      color:var(--primary);
+      text-decoration:none;
+      font-weight:700;
+    }
+
+    .back-link a:hover{
+      opacity:.85;
+    }
+
+    @media (max-width: 480px){
+      .recovery-shell{
+        padding:28px 18px;
+      }
+
+      h1{
+        font-size:1.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="recovery-shell">
+    <div class="brand">FitPower</div>
+    <h1>Recuperar contraseña</h1>
+    <p class="subtitle">
+      Ingresa tu correo registrado y te enviaremos un enlace seguro para restablecer tu contraseña.
+    </p>
+
+    <?php if (!empty($_GET['ok'])): ?>
+      <div id="status-ok" class="status">
+    Si el correo existe en nuestro sistema, enviamos un enlace de recuperación.
+</div>
+    <?php endif; ?>
+
+    <?php if (!empty($_GET['error'])): ?>
+      
+<div id="status-error" class="status error">
+    Ocurrió un problema al procesar la solicitud. Intenta nuevamente.
+</div>
+    <?php endif; ?>
+
+    <form action="enviar_recuperacion.php" method="POST">
+      <div class="form-group">
+        <label for="correo">Correo electrónico</label>
+        <input type="email" name="correo" id="correo" placeholder="tucorreo@ejemplo.com" required>
+      </div>
+
+      <button type="submit" class="btn">Enviar recuperación</button>
+    </form>
+
+    <div class="back-link">
+      <a href="login.html">Volver al inicio de sesión</a>
+    </div>
+  </div>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const statusOk = document.getElementById('status-ok');
+    const statusError = document.getElementById('status-error');
+
+    if (statusOk) statusOk.style.display = 'none';
+    if (statusError) statusError.style.display = 'none';
+
+    if (params.get('ok') === '1' && statusOk) {
+        statusOk.style.display = 'block';
+    }
+    if (params.get('error') === '1' && statusError) {
+        statusError.style.display = 'block';
+    }
+</script>
+</body>
+</html>
